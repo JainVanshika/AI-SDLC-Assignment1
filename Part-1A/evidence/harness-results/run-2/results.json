@@ -1,0 +1,31 @@
+{
+  "run_id": "run-2",
+  "verdict": "PASS",
+  "gates": [
+    {
+      "name": "lint",
+      "status": "PASS"
+    },
+    {
+      "name": "security",
+      "status": "PASS"
+    },
+    {
+      "name": "secrets",
+      "status": "PASS"
+    },
+    {
+      "name": "tests",
+      "status": "PASS"
+    },
+    {
+      "name": "traceability",
+      "status": "PASS"
+    },
+    {
+      "name": "integrity",
+      "status": "PASS"
+    }
+  ],
+  "duration_seconds": 3.0
+}

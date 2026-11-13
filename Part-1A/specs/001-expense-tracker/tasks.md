@@ -47,9 +47,9 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 ## Phase 4: Evidence and review
 
 - [X] T032 Copy `src/expense_tracker/` unchanged to `evidence/initial-generation/` before the first harness run. Cites: constitution (Workflow).
-- [ ] T033 Run `uv run python .harness/run_harness.py` and keep the output as `evidence/harness-results/run-1/`. Cites: SC-001 to SC-007.
-- [ ] T034 If a gate fails, give the agent that run's `feedback.json`, repair `src/` only, and re-run; keep every run. A failure is never created on purpose. Cites: constitution (Workflow).
-- [ ] T035 Copy the accepted `src/expense_tracker/` to `evidence/final-generation/`. Cites: constitution (Workflow).
+- [X] T033 Run `uv run python .harness/run_harness.py` and keep the output as `evidence/harness-results/run-1/`. Cites: SC-001 to SC-007.
+- [X] T034 If a gate fails, give the agent that run's `feedback.json`, repair `src/` only, and re-run; keep every run. A failure is never created on purpose. Cites: constitution (Workflow).
+- [X] T035 Copy the accepted `src/expense_tracker/` to `evidence/final-generation/`. Cites: constitution (Workflow).
 - [ ] T036 Write `Part-1A/evidence/harness-log.md`: the first generation, each run and result, the failure evidence given to the agent, what changed, the final ACCEPT or REJECT decision, limitations. Cites: constitution (Workflow).
 - [ ] T037 Write `Part-1A/README.md`: install, run, harness. Cites: quickstart.
 

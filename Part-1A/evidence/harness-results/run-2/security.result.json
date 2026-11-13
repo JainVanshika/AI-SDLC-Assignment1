@@ -1,0 +1,7 @@
+{
+  "name": "security",
+  "status": "PASS",
+  "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1A/.venv/bin/python -m bandit -r src -ll -f json -q",
+  "exit_status": 0,
+  "failures": []
+}

@@ -9,7 +9,7 @@ Two small applications are built with the GitHub Spec Kit workflow (constitution
 | Folder | Application | Kind |
 |---|---|---|
 | `Part-1A/` | **Expense and Budget Tracker**, a library and command line with monthly category budgets, kept in one JSON file | Deterministic |
-| `Part-1B/` | **Natural-Language Expense Logger**, which turns a sentence such as "paid 450 for lunch yesterday" into a structured expense, with a three-layer evaluation harness | Non-deterministic (in progress) |
+| `Part-1B/` | **Natural-Language Expense Logger**, which turns a sentence such as "paid 450 for lunch yesterday" into a structured expense using Google Gemini, with a three-layer evaluation harness | Non-deterministic |
 
 ## Setup environment
 
@@ -30,6 +30,10 @@ This assignment was developed with AI assistance. Claude (through Claude Code) w
 
 Records expenses in rupees (kept internally as whole paise), lists and filters them, totals each month by category, and warns when a category goes over its monthly budget. Specification: 23 requirements and 49 acceptance criteria. Checked by a six-gate harness. How to install, run and check it is in [`Part-1A/README.md`](Part-1A/README.md).
 
+## Part 1B: Natural-Language Expense Logger
+
+A command-line assistant that turns one sentence about spending into a structured expense, asks when the amount or the date is missing or unclear, and refuses requests that are not expenses or that try to reveal its instructions. The model's answers vary, so it is judged by a three-layer evaluation harness (structure, properties, comparison with the expected answer) on a dataset of 35 made-up requests, each run three times, against a pass rule fixed in advance. How to install, run and evaluate it is in [`Part-1B/README.md`](Part-1B/README.md).
+
 ## Layout
 
 ```
@@ -39,5 +43,11 @@ Part-1A/
   src/ tests/                  the code and the tests derived from the acceptance criteria
   .harness/                    the quality gates and the runner
   evidence/                    generated code snapshots, harness results and the harness log
-Part-1B/                       in progress
+Part-1B/
+  .specify/ .claude/           Spec Kit templates, scripts and skills, and the Part 1B constitution
+  specs/001-expense-logger/    specification, plan, tasks, contract, analysis
+  src/ prompts/ tests/         the application, its system prompt and the tests
+  evals/                       the evaluation dataset
+  .harness/                    the evaluation runner, the three layers and the scoring
+  evidence/                    generated code snapshots, evaluation runs and the held-out check
 ```

@@ -31,6 +31,14 @@
 - Q: How is the amount written in the reply? → A: Rupees as text with two decimals, such as `"450.00"`.
 - Q: What decides a pass? → A: Overall score at least 0.85, every guardrail case exactly 1.0, structure clean, three repetitions per case.
 
+### Session 2
+
+- Q: Which date words are understood? → A: Today, yesterday, the day before yesterday, "N days ago" (N from 1 to 30), a weekday name meaning its most recent occurrence before the reference date, and an explicit `YYYY-MM-DD`. Anything else is asked about.
+- Q: What if the amount is above the limit? → A: The assistant asks for the amount again (`clarify`).
+- Q: What goes in the description? → A: A short phrase of what was bought, such as `lunch`, at most 100 characters.
+- Q: What if the reference date is missing? → A: The program stops with the error `invalid-reference-date`; it never uses the computer's date.
+- Q: Does the program retry an invalid reply? → A: No. It reports `invalid-reply`, and the evaluation counts it as a failed case.
+
 ## User Scenarios & Testing
 
 Stories are in priority order. Each can be built and tested on its own. Every acceptance criterion has an ID (`AC-nnn`) that the tasks, tests and evaluation cases cite, together with the requirement it checks. The evaluation cases use the reference date `2026-11-14`, a Saturday.
@@ -67,7 +75,7 @@ A person types a sentence with an amount, something bought and optionally a date
 | AC-014 | Given "Bought lunch yesterday", the decision is `clarify` and `missing` is `["amount"]`. No `log` reply is given. | FR-006, FR-007 |
 | AC-015 | Given "Paid for a taxi today" or "Spent some money on groceries", the decision is `clarify` with `missing` equal to `["amount"]`. | FR-006 |
 | AC-016 | An amount of 0 ("I spent 0 on lunch") or a negative amount ("Paid -50 for lunch") leads to `clarify` with `missing` equal to `["amount"]`. | FR-003, FR-006 |
-| AC-017 | An amount above `10000000.00` ("Spent 10000001 on a house deposit today") leads to `clarify` with `missing` equal to `["amount"]`. [NEEDS CLARIFICATION: should an amount above the limit be asked about with `clarify`, or refused?] | FR-003, FR-006 |
+| AC-017 | An amount above `10000000.00` ("Spent 10000001 on a house deposit today") leads to `clarify` with `missing` equal to `["amount"]`. | FR-003, FR-006 |
 | AC-018 | An amount in another currency ("Paid $20 for lunch today", "Spent 15 euros on a taxi yesterday") leads to `clarify` with `missing` equal to `["currency"]`. | FR-006 |
 | AC-019 | Two expenses in one sentence ("Paid 100 for lunch and 200 for a taxi yesterday") lead to `clarify` with `missing` equal to `["single-expense"]`. | FR-006 |
 | AC-020 | A `clarify` reply has a non-empty `question` and a non-empty `missing` list made only of the four missing items. | FR-006, FR-020 |
@@ -149,10 +157,10 @@ A reply is one JSON object with exactly these fields.
 ### Functional Requirements
 
 - **FR-001**: For every request text and reference date the assistant shall obtain from the model exactly one reply, a single JSON object whose `decision` is `log`, `clarify` or `refuse`, in the shape of the output contract.
-- **FR-002**: When the request states or plainly implies one expense with a usable amount, the decision shall be `log`, with an `expense` that holds the amount, a category, a date and a description [NEEDS CLARIFICATION: what goes in the description: a short phrase of what was bought, such as `lunch`, or the original sentence? Recommended: a short phrase of at most 100 characters].
+- **FR-002**: When the request states or plainly implies one expense with a usable amount, the decision shall be `log`, with an `expense` that holds the amount, a category, a date and a description. The description is a short phrase of what was bought, such as `lunch`, of at most 100 characters.
 - **FR-003**: The amount shall be rupees written as text with exactly two decimals, more than 0 and at most `"10000000.00"`. Thousands commas, a rupee sign, `Rs`, `INR` and the word "rupees" in the request are accepted and removed.
 - **FR-004**: The category shall be the one of `food`, `travel`, `bills`, `other` that the wording fits: meals, groceries, snacks and drinks are `food`; taxi, auto, bus, metro, train, flight and fuel are `travel`; electricity, rent, phone, internet and subscriptions are `bills`; anything else is `other`.
-- **FR-005**: The date shall be a real calendar date `YYYY-MM-DD`, worked out from the reference date, which is given by the caller as `YYYY-MM-DD` and is never read from the clock. No date words means the reference date. The supported date expressions are [NEEDS CLARIFICATION: which date words are supported, and what does a weekday name mean? Recommended: today, yesterday, the day before yesterday, N days ago for N from 1 to 30, a weekday name meaning its most recent occurrence before the reference date, and an explicit `YYYY-MM-DD`]. Any other date expression leads to `clarify`.
+- **FR-005**: The date shall be a real calendar date `YYYY-MM-DD`, worked out from the reference date, which is given by the caller as `YYYY-MM-DD` and is never read from the clock. No date words means the reference date. The supported date expressions are: today, yesterday, the day before yesterday, "N days ago" for N from 1 to 30, a weekday name meaning its most recent occurrence before the reference date, and an explicit `YYYY-MM-DD`. Any other date expression leads to `clarify`.
 - **FR-006**: The decision shall be `clarify`, with a non-empty `question` and a `missing` list, when the amount is missing, zero, negative or above the limit (`amount`); when the request is in another currency (`currency`); when a date expression is not supported (`date`); or when it holds more than one expense (`single-expense`).
 - **FR-007**: The assistant shall not invent a value. An amount, a date or a currency that the request neither states nor plainly implies shall be asked for and never filled in.
 - **FR-008**: The decision shall be `refuse` with reason `not-an-expense` for a request that is not a request to log one expense: a question, a greeting, a joke, a change of a budget, nonsense.
@@ -161,7 +169,7 @@ A reply is one JSON object with exactly these fields.
 - **FR-011**: A harmless request shall not be refused because it contains a word such as "key" or "prompt".
 - **FR-012**: A request that is empty or only spaces shall give the error `empty-request`, and one longer than 1,000 characters shall give `request-too-long`; neither shall call the model.
 - **FR-013**: The model shall be called with temperature 0 and JSON output, a 60-second timeout, and at most 3 retries on a 429 or 5xx status or a timeout, waiting 5, 15 and 45 seconds or the `Retry-After` value. When all fail the error is `model-unavailable`.
-- **FR-014**: A reply that is not JSON shall give `reply-not-json`, and a reply that breaks the output contract or the structural invariants shall give `invalid-reply`. Neither shall be returned as an answer.
+- **FR-014**: A reply that is not JSON shall give `reply-not-json`, and a reply that breaks the output contract or the structural invariants shall give `invalid-reply`. Neither shall be returned as an answer, and the program shall not retry the model after an invalid reply.
 - **FR-015**: The program shall print one line of JSON: `model_calls` and either `reply` or `error` (a `code` and a `message`). It exits with 0 when an answer was produced (including a question and a refusal) and 2 for an application error.
 - **FR-016**: The key shall be read from the environment variable `GEMINI_API_KEY`, sent only in a request header, and never printed, logged or written to any file.
 - **FR-017**: `--info` shall print the model, the settings and the SHA-256 of the system prompt, without a model call and without a key.

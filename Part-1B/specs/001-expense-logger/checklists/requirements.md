@@ -12,7 +12,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain: 3 are open on purpose, for the clarify step (FR-005 date words, AC-017 amount above the limit, FR-002 description)
+- [x] No [NEEDS CLARIFICATION] markers remain: the 3 raised in the first draft (date words, amount above the limit, description) were resolved, and two more decisions (missing reference date, invalid reply) were recorded in the clarify session
 - [x] Requirements are testable and unambiguous (24 requirements, each cited by at least one AC; checked by script)
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic
@@ -31,4 +31,4 @@
 ## Notes
 
 - Worked dates use the reference date 2026-11-14, a Saturday: yesterday 2026-11-13, two days ago 2026-11-12, "on Monday" 2026-11-09, "on Friday" 2026-11-13. They were computed with a script.
-- The one unchecked item is open by design and is resolved by `/speckit-clarify`.
+- All items pass after the clarify session.

@@ -1,7 +1,7 @@
 import pytest
-from expense_tracker.errors import ExpenseError
 
 from expense_tracker import rules
+from expense_tracker.errors import ExpenseError
 
 
 def code_of(check, value):

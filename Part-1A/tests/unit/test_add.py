@@ -1,8 +1,8 @@
 import pytest
-from expense_tracker.errors import ExpenseError
-from expense_tracker.models import Store
 
 from expense_tracker import ops
+from expense_tracker.errors import ExpenseError
+from expense_tracker.models import Store
 
 
 @pytest.mark.ac("AC-001")

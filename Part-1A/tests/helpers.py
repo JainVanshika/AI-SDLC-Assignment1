@@ -1,8 +1,7 @@
 """Builders for the reference data of the specification."""
 
-from expense_tracker.models import Store
-
 from expense_tracker import ops
+from expense_tracker.models import Store
 
 
 def reference_store() -> Store:

@@ -3,9 +3,8 @@ import random
 import time
 from pathlib import Path
 
-from expense_tracker.models import Expense, Store
-
 from expense_tracker import ops
+from expense_tracker.models import Expense, Store
 
 SRC = Path(__file__).resolve().parents[2] / "src" / "expense_tracker"
 FORBIDDEN_IMPORTS = {"time", "random", "socket", "urllib", "http", "requests", "secrets"}

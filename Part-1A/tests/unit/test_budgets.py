@@ -1,8 +1,8 @@
 import pytest
-from expense_tracker.errors import ExpenseError
 from helpers import reference_store
 
 from expense_tracker import ops
+from expense_tracker.errors import ExpenseError
 
 
 def with_food_budget(limit: str):

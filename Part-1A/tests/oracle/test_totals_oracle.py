@@ -4,9 +4,9 @@ import random
 import sqlite3
 
 import pytest
-from expense_tracker.models import Store
 
 from expense_tracker import ops
+from expense_tracker.models import Store
 
 CATEGORIES = ["food", "travel", "bills", "other"]
 

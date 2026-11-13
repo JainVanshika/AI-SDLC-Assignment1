@@ -1,11 +1,11 @@
 import json
 
 import pytest
-from expense_tracker.errors import ExpenseError
-from expense_tracker.models import Store
 from helpers import reference_store
 
 from expense_tracker import ops, storage
+from expense_tracker.errors import ExpenseError
+from expense_tracker.models import Store
 
 GOOD = {
     "version": 1,

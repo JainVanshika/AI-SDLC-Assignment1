@@ -1,11 +1,12 @@
-"""Integrity gate: the tests, the harness, the specification and the project file are as they were at the baseline tag."""
+"""Integrity gate: the tests, the harness, the specification and the project file are as they were
+at the newest baseline tag. A recorded amendment adds a new tag; the old ones are never moved."""
 
 import subprocess
 from pathlib import Path
 
 from common import Context, result, run
 
-TAG = "baseline-1a-before-implement"
+TAG_PATTERN = "baseline-1a-before-implement*"  # the first baseline and the amendments v2, v3, ...
 PROTECTED = ["tests", ".harness", "specs/001-expense-tracker/spec.md", "pyproject.toml"]
 
 
@@ -18,22 +19,26 @@ def run_gate(ctx: Context) -> dict:
     top = run(["git", "rev-parse", "--show-toplevel"], ctx.root)["stdout"].strip()
     prefix = run(["git", "rev-parse", "--show-prefix"], ctx.root)["stdout"].strip()
     failures = []
-    status, _ = git_bytes(ctx, "rev-parse", "-q", "--verify", f"refs/tags/{TAG}")
-    if status != 0:
-        failures.append({"rule": "tag-missing", "message": f"the Git tag {TAG} does not exist"})
-        return result(
-            "integrity",
-            {"command": f"git rev-parse {TAG}", "exit_status": 1, "stdout": "", "stderr": ""},
-            failures,
-        )
+    _, tags = git_bytes(ctx, "tag", "--list", TAG_PATTERN, "--sort=version:refname")
+    names = [line for line in tags.decode().splitlines() if line]
+    if not names:
+        failures.append({"rule": "tag-missing", "message": f"no Git tag matches {TAG_PATTERN}"})
+        summary = {
+            "command": f"git tag --list {TAG_PATTERN}",
+            "exit_status": 1,
+            "stdout": "",
+            "stderr": "",
+        }
+        return result("integrity", summary, failures)
+    tag = names[-1]
     for path in PROTECTED:
-        _, listing = git_bytes(ctx, "ls-tree", "-r", "--name-only", TAG, "--", prefix + path)
+        _, listing = git_bytes(ctx, "ls-tree", "-r", "--name-only", tag, "--", prefix + path)
         at_tag = {line for line in listing.decode().splitlines() if line}
         _, current = git_bytes(ctx, "ls-files", "-co", "--exclude-standard", "--", prefix + path)
         now = {line for line in current.decode().splitlines() if line}
         for name in sorted(at_tag):
             file = Path(top) / name
-            _, original = git_bytes(ctx, "show", f"{TAG}:{name}")
+            _, original = git_bytes(ctx, "show", f"{tag}:{name}")
             if not file.exists():
                 failures.append({"rule": "protected-file-deleted", "file": name})
             elif file.read_bytes() != original:
@@ -42,7 +47,7 @@ def run_gate(ctx: Context) -> dict:
             {"rule": "protected-file-added", "file": name} for name in sorted(now - at_tag)
         ]
     summary = {
-        "command": f"compare {', '.join(PROTECTED)} with the tag {TAG}",
+        "command": f"compare {', '.join(PROTECTED)} with the tag {tag}",
         "exit_status": 1 if failures else 0,
         "stdout": f"{len(failures)} difference(s)",
         "stderr": "",

@@ -2,9 +2,9 @@ import json
 
 import pytest
 from conftest import run_cli
-from expense_tracker.models import Store
 
 from expense_tracker import ops
+from expense_tracker.models import Store
 
 ADD_1 = [
     "add",

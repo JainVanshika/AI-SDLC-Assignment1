@@ -30,16 +30,16 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 
 ## Phase 3: Implementation
 
-- [ ] T019 [P] Create `Part-1B/src/expense_logger/config.py`: limits, model name, retry waits, the paths. Cites: FR-012, FR-013.
-- [ ] T020 [P] Create `Part-1B/src/expense_logger/contract.py`: `check_reply(reply, today)` that returns the list of violations of INV-01 to INV-06. Cites: FR-001, FR-014.
-- [ ] T021 [P] Create `Part-1B/src/expense_logger/model.py`: `GeminiClient.generate(system, user)` over `http.client`, with the retry rule, and `ModelUnavailable`. The connection factory and the `sleep` function are parameters, so that tests can replace them. Cites: FR-013, FR-016.
-- [ ] T022 Create `Part-1B/prompts/system.md`: output contract, ask rules, refuse rules, date rules, category rules, injection rule, and the marker phrase. Cites: FR-002 to FR-011.
-- [ ] T023 Create `Part-1B/src/expense_logger/assistant.py`: `handle(text, today, client)`. Cites: FR-001, FR-012, FR-014, FR-015.
-- [ ] T024 Create `Part-1B/src/expense_logger/cli.py` and `__main__.py`: arguments, `--info`, the one-line JSON and exit codes. Cites: FR-015, FR-016, FR-017.
+- [X] T019 [P] Create `Part-1B/src/expense_logger/config.py`: limits, model name, retry waits, the paths. Cites: FR-012, FR-013.
+- [X] T020 [P] Create `Part-1B/src/expense_logger/contract.py`: `check_reply(reply, today)` that returns the list of violations of INV-01 to INV-06. Cites: FR-001, FR-014.
+- [X] T021 [P] Create `Part-1B/src/expense_logger/model.py`: `GeminiClient.generate(system, user)` over `http.client`, with the retry rule, and `ModelUnavailable`. The connection factory and the `sleep` function are parameters, so that tests can replace them. Cites: FR-013, FR-016.
+- [X] T022 Create `Part-1B/prompts/system.md`: output contract, ask rules, refuse rules, date rules, category rules, injection rule, and the marker phrase. Cites: FR-002 to FR-011.
+- [X] T023 Create `Part-1B/src/expense_logger/assistant.py`: `handle(text, today, client)`. Cites: FR-001, FR-012, FR-014, FR-015.
+- [X] T024 Create `Part-1B/src/expense_logger/cli.py` and `__main__.py`: arguments, `--info`, the one-line JSON and exit codes. Cites: FR-015, FR-016, FR-017.
 
 ## Phase 4: Evidence and review
 
-- [ ] T025 Copy `src/expense_logger/` and `prompts/` unchanged to `evidence/initial-generation/` before the first evaluation. Cites: constitution (Workflow).
+- [X] T025 Copy `src/expense_logger/` and `prompts/` unchanged to `evidence/initial-generation/` before the first evaluation. Cites: constitution (Workflow).
 - [ ] T026 Run the evaluation and keep each run as `evidence/eval-runs/run-N/`. Cites: SC-002, SC-003.
 - [ ] T027 If a run fails, give the agent that run's `feedback.json`, repair, and run again; keep every run. A failure is never created on purpose. Cites: constitution (Workflow).
 - [ ] T028 Copy the accepted `src/` and `prompts/` to `evidence/final-generation/`. Cites: constitution (Workflow).

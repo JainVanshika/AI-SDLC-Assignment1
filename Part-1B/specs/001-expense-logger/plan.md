@@ -24,7 +24,7 @@ A small command-line program that sends one request text and a reference date to
 
 **Project Type**: command-line program and evaluation harness
 
-**Performance Goals**: a full evaluation run (about 34 cases, three repetitions) in under 15 minutes with a 3-second pause between calls
+**Performance Goals**: a full evaluation run (about 35 cases, three repetitions) in under 15 minutes with a 3-second pause between calls
 
 **Constraints**: no clock, no floating-point money, key only from the environment, made-up requests only
 
@@ -50,7 +50,7 @@ No violations.
 - **D4. Retry rule.** 429, 5xx and timeouts are retried up to 3 times after 5, 15 and 45 seconds or the `Retry-After` value; other failures are not retried. An invalid reply is not retried (FR-013, FR-014).
 - **D5. Errors.** `empty-request`, `request-too-long`, `invalid-reference-date`, `missing-api-key` stop before any model call; `model-unavailable`, `reply-not-json`, `invalid-reply` come after. Exit 0 for an answer (including `clarify` and `refuse`), 2 for an error (FR-015).
 - **D6. Harness independence.** The harness reads `.env` itself and passes the key to the child process; it never imports `expense_logger` and holds its own copy of the rules.
-- **D7. Evaluation.** 34 made-up cases in `evals/dataset.json`; three repetitions; 3 seconds between calls; per-repetition results, scores and a verdict; `feedback.json` for failed cases (FR-018 to FR-023).
+- **D7. Evaluation.** 35 made-up cases in `evals/dataset.json`; three repetitions; 3 seconds between calls; per-repetition results, scores and a verdict; `feedback.json` for failed cases (FR-018 to FR-023).
 - **D8. Held-out check.** A separate script runs at least 12 new requests once, with no pass mark, to see whether repairs generalise (SC-007).
 
 ## Requirement Map

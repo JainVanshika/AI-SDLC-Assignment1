@@ -18,13 +18,13 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 - [ ] T007 [P] Write `Part-1B/.harness/layers/semantic.py` and `scoring.py`: the layer 3 comparison and the score of the specification, and the verdict rule. Cites: FR-020, FR-021, AC-040.
 - [ ] T008 [P] Write `Part-1B/.harness/prechecks.py`: lint (Ruff, no cache), security (Bandit, medium and high), tests (pytest with branch coverage at least 90%), secrets (gitleaks over history and files, no allowlist), traceability (every AC is cited by a test or a dataset case) and integrity (the frozen files match the newest baseline tag). Cites: FR-018, constitution (Standards).
 - [ ] T009 Write `Part-1B/.harness/run_eval.py`: runs the pre-checks, then every case three times by starting `python -m expense_logger` as a subprocess with the key in its environment, pauses 3 seconds between calls, applies the three layers, writes `eval-results.json`, a summary and `feedback.json` to `evidence/eval-runs/<run-id>/`, and never imports the application. Cites: FR-018, FR-022, FR-023, AC-038, AC-042, AC-043.
-- [ ] T010 [P] Write `Part-1B/evals/dataset.json`: 34 made-up cases with the fields of FR-019, 8 or more guardrail cases, the reference date 2026-11-14. Cites: FR-019, AC-001 to AC-032, FR-024.
+- [ ] T010 [P] Write `Part-1B/evals/dataset.json`: 35 made-up cases with the fields of FR-019, 8 or more guardrail cases, the reference date 2026-11-14. Cites: FR-019, AC-001 to AC-032, AC-046, FR-024.
 - [ ] T011 [P] Write `Part-1B/tests/test_harness_layers.py`: made-up faulty replies (extra field, invented amount, leaked key, wrong decision, no answer, bad date) flagged by the check that should flag them, and a good reply that passes. Cites: AC-041, AC-020, AC-024, AC-027.
 - [ ] T012 [P] Write `Part-1B/tests/test_scoring.py`: the score of each ground truth type and the verdict rule. Cites: AC-040, FR-021.
 - [ ] T013 [P] Write `Part-1B/tests/test_dataset.py`: the shape of the dataset, at least 32 cases, 8 guardrail cases, every case cites known ACs, no email or phone-like number. Cites: AC-039, AC-045, FR-024.
 - [ ] T014 [P] Write `Part-1B/tests/test_contract.py`: the reply check for each INV with good and bad replies. Cites: AC-008, AC-020, AC-024, AC-034, FR-014.
 - [ ] T015 [P] Write `Part-1B/tests/test_assistant.py` with the fake client: each error code, no model call for unusable input, the message sent to the model, replies passed through. Cites: AC-030, AC-031, AC-032, AC-034, AC-037, AC-044, FR-012, FR-014.
-- [ ] T016 [P] Write `Part-1B/tests/test_model.py` with a fake HTTPS connection: request body (temperature 0, JSON output), the key only in the header, retries and waits, `Retry-After`, timeout, `model-unavailable`. Cites: AC-033, AC-035, FR-013, FR-016.
+- [ ] T016 [P] Write `Part-1B/tests/test_model.py` with a fake HTTPS connection: request body (temperature 0, JSON output), the key only in the header, retries and waits (a fake `sleep` records the waits instead of waiting), `Retry-After`, timeout, `model-unavailable`. Cites: AC-033, AC-035, FR-013, FR-016.
 - [ ] T017 [P] Write `Part-1B/tests/test_cli.py`: `--info`, exit codes, one line of JSON, the key never printed. Cites: AC-036, AC-044, AC-027, FR-015, FR-017.
 - [ ] T018 Commit the harness, the dataset and the tests, then create the annotated tag `baseline-1b-before-implement` with `test_functions=<count> dataset_cases=<count>`. Nothing under `tests/`, `.harness/`, `evals/` or `pyproject.toml` changes after it without a recorded amendment. Cites: constitution IV.
 
@@ -32,7 +32,7 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 
 - [ ] T019 [P] Create `Part-1B/src/expense_logger/config.py`: limits, model name, retry waits, the paths. Cites: FR-012, FR-013.
 - [ ] T020 [P] Create `Part-1B/src/expense_logger/contract.py`: `check_reply(reply, today)` that returns the list of violations of INV-01 to INV-06. Cites: FR-001, FR-014.
-- [ ] T021 [P] Create `Part-1B/src/expense_logger/model.py`: `GeminiClient.generate(system, user)` over `http.client`, with the retry rule, and `ModelUnavailable`. Cites: FR-013, FR-016.
+- [ ] T021 [P] Create `Part-1B/src/expense_logger/model.py`: `GeminiClient.generate(system, user)` over `http.client`, with the retry rule, and `ModelUnavailable`. The connection factory and the `sleep` function are parameters, so that tests can replace them. Cites: FR-013, FR-016.
 - [ ] T022 Create `Part-1B/prompts/system.md`: output contract, ask rules, refuse rules, date rules, category rules, injection rule, and the marker phrase. Cites: FR-002 to FR-011.
 - [ ] T023 Create `Part-1B/src/expense_logger/assistant.py`: `handle(text, today, client)`. Cites: FR-001, FR-012, FR-014, FR-015.
 - [ ] T024 Create `Part-1B/src/expense_logger/cli.py` and `__main__.py`: arguments, `--info`, the one-line JSON and exit codes. Cites: FR-015, FR-016, FR-017.

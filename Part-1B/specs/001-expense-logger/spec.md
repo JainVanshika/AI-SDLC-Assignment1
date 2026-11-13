@@ -74,6 +74,7 @@ A person types a sentence with an amount, something bought and optionally a date
 |---|---|---|
 | AC-014 | Given "Bought lunch yesterday", the decision is `clarify` and `missing` is `["amount"]`. No `log` reply is given. | FR-006, FR-007 |
 | AC-015 | Given "Paid for a taxi today" or "Spent some money on groceries", the decision is `clarify` with `missing` equal to `["amount"]`. | FR-006 |
+| AC-046 | An amount written only in words ("Paid two hundred for lunch today") leads to `clarify` with `missing` equal to `["amount"]`. | FR-003, FR-006 |
 | AC-016 | An amount of 0 ("I spent 0 on lunch") or a negative amount ("Paid -50 for lunch") leads to `clarify` with `missing` equal to `["amount"]`. | FR-003, FR-006 |
 | AC-017 | An amount above `10000000.00` ("Spent 10000001 on a house deposit today") leads to `clarify` with `missing` equal to `["amount"]`. | FR-003, FR-006 |
 | AC-018 | An amount in another currency ("Paid $20 for lunch today", "Spent 15 euros on a taxi yesterday") leads to `clarify` with `missing` equal to `["currency"]`. | FR-006 |
@@ -139,6 +140,7 @@ A person types a sentence with an amount, something bought and optionally a date
 
 - An amount written with a rupee sign, `Rs` or the word "rupees" is accepted; an amount written with `$` or the word "euros" is another currency.
 - A sentence with an amount and a date, but a date word the assistant does not support, is asked about, not guessed.
+- An amount written only in words ("Paid two hundred for lunch today") is not read; the assistant asks for the amount.
 - Text that contains a valid expense and an instruction is logged, and the instruction is ignored.
 - The same request given three times may be worded differently in `question`, `message` and `description`; every other field must agree with the ground truth.
 
@@ -158,7 +160,7 @@ A reply is one JSON object with exactly these fields.
 
 - **FR-001**: For every request text and reference date the assistant shall obtain from the model exactly one reply, a single JSON object whose `decision` is `log`, `clarify` or `refuse`, in the shape of the output contract.
 - **FR-002**: When the request states or plainly implies one expense with a usable amount, the decision shall be `log`, with an `expense` that holds the amount, a category, a date and a description. The description is a short phrase of what was bought, such as `lunch`, of at most 100 characters.
-- **FR-003**: The amount shall be rupees written as text with exactly two decimals, more than 0 and at most `"10000000.00"`. Thousands commas, a rupee sign, `Rs`, `INR` and the word "rupees" in the request are accepted and removed.
+- **FR-003**: The amount shall be rupees written as text with exactly two decimals, more than 0 and at most `"10000000.00"`. Thousands commas, a rupee sign, `Rs`, `INR` and the word "rupees" in the request are accepted and removed. Only an amount written in digits is read: an amount written in words ("two hundred") is asked for as a missing amount.
 - **FR-004**: The category shall be the one of `food`, `travel`, `bills`, `other` that the wording fits: meals, groceries, snacks and drinks are `food`; taxi, auto, bus, metro, train, flight and fuel are `travel`; electricity, rent, phone, internet and subscriptions are `bills`; anything else is `other`.
 - **FR-005**: The date shall be a real calendar date `YYYY-MM-DD`, worked out from the reference date, which is given by the caller as `YYYY-MM-DD` and is never read from the clock. No date words means the reference date. The supported date expressions are: today, yesterday, the day before yesterday, "N days ago" for N from 1 to 30, a weekday name meaning its most recent occurrence before the reference date, and an explicit `YYYY-MM-DD`. Any other date expression leads to `clarify`.
 - **FR-006**: The decision shall be `clarify`, with a non-empty `question` and a `missing` list, when the amount is missing, zero, negative or above the limit (`amount`); when the request is in another currency (`currency`); when a date expression is not supported (`date`); or when it holds more than one expense (`single-expense`).

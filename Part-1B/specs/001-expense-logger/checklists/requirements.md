@@ -16,7 +16,7 @@
 - [x] Requirements are testable and unambiguous (24 requirements, each cited by at least one AC; checked by script)
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic
-- [x] All acceptance scenarios are defined (AC-001 to AC-045, 9 user stories; every AC cites the requirement it checks)
+- [x] All acceptance scenarios are defined (AC-001 to AC-046, 9 user stories; every AC cites the requirement it checks)
 - [x] Edge cases are identified
 - [x] Scope is clearly bounded (out of scope listed under Assumptions)
 - [x] Dependencies and assumptions identified

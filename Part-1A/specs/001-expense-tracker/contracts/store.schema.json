@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Expense tracker data file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "next_id", "expenses", "budgets"],
+  "properties": {
+    "version": {"const": 1},
+    "next_id": {"type": "integer", "minimum": 1},
+    "expenses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "amount_paise", "category", "date", "description"],
+        "properties": {
+          "id": {"type": "integer", "minimum": 1},
+          "amount_paise": {"type": "integer", "minimum": 1, "maximum": 1000000000},
+          "category": {"enum": ["food", "travel", "bills", "other"]},
+          "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+          "description": {"type": "string", "maxLength": 100}
+        }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "propertyNames": {"enum": ["food", "travel", "bills", "other"]},
+      "patternProperties": {
+        "^(food|travel|bills|other)$": {"type": "integer", "minimum": 1, "maximum": 1000000000}
+      }
+    }
+  }
+}

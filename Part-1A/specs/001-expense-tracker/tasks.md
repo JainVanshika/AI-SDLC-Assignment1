@@ -8,7 +8,7 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 
 - [ ] T001 Create `Part-1A/pyproject.toml`: project `expense-tracker`, `requires-python = ">=3.12,<3.13"`, no run-time dependencies, dev group with pytest, pytest-cov, ruff and bandit, the script `expense = "expense_tracker.cli:main"`, the `ac` pytest marker, `[tool.coverage.run] branch = true, source = ["src/expense_tracker"]`, `[tool.coverage.report] fail_under = 90`, and Ruff rules `select = ["E", "F", "I", "B", "UP", "S", "C90"]`, with `[tool.ruff.lint.per-file-ignores] "tests/*" = ["S101", "S603", "S607"]` because tests use `assert` and start the command line in a subprocess (the ignore is for tests only and is documented in the harness log). Cites: constitution (Standards), plan.
 - [ ] T002 Create the empty package `Part-1A/src/expense_tracker/__init__.py` and the folders `tests/unit`, `tests/integration`, `tests/property`, `tests/oracle`, `evidence/initial-generation`, `evidence/final-generation`, `evidence/harness-results`. Cites: plan (Structure).
-- [ ] T003 Create `Part-1A/tests/conftest.py` with the `ac` marker and a helper `run_cli(args, cwd)` that starts `python -m expense_tracker` in a subprocess. Cites: constitution III.
+- [ ] T003 Create `Part-1A/tests/conftest.py` with the `ac` marker and a fixture `run` that calls the command line `main(argv)` in this process, and a helper `run_cli(args, cwd)` that starts `python -m expense_tracker` in a subprocess. Most command line tests use the in-process fixture so that coverage counts them. Cites: constitution III.
 
 ## Phase 2: Harness and tests (frozen before implementation)
 

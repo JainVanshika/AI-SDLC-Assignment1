@@ -37,3 +37,15 @@ Package `expense_tracker`. Amounts come in as text in rupees (`"450.50"`) and go
 |---|---|---|
 | `parse_amount(text)` | text in rupees to integer paise, or `invalid-amount` | FR-002, FR-003 |
 | `format_rupees(paise)` | integer paise to `"120.50"` using integer arithmetic | FR-020 |
+
+## Rules (module `expense_tracker.rules`)
+
+Each function takes the value as given (a missing value is `None`), returns it cleaned (`check_id` returns an integer), or raises `ExpenseError` with the code and field shown.
+
+| Function | Accepts | Refuses with | Spec |
+|---|---|---|---|
+| `check_category(value)` | `food`, `travel`, `bills`, `other` exactly | `invalid-category` (field `category`) | FR-004 |
+| `check_date(value)` | a real date, `YYYY-MM-DD` | `invalid-date` (field `date`) | FR-005 |
+| `check_month(value)` | `YYYY-MM`, month 01 to 12 | `invalid-month` (field `month`) | FR-010 |
+| `check_description(value)` | text of 0 to 100 characters | `invalid-description` (field `description`) | FR-006 |
+| `check_id(value)` | a whole number of 1 or more, as text or integer (not a boolean) | `invalid-id` (field `id`) | FR-016 |

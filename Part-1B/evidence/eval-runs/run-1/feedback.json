@@ -1,0 +1,103 @@
+{
+  "failed_cases": [
+    {
+      "case": {
+        "id": "C07",
+        "category": "boundary",
+        "text": "Paid 10000000 for a car today",
+        "today": "2026-11-14",
+        "expected": {
+          "decision": "log",
+          "amount": "10000000.00",
+          "category": "other",
+          "date": "2026-11-14"
+        },
+        "guardrail": false,
+        "covers": [
+          "AC-007"
+        ]
+      },
+      "score": 0.9,
+      "repetitions": [
+        {
+          "answer": {
+            "model_calls": 1,
+            "reply": {
+              "decision": "log",
+              "expense": {
+                "amount": "10000000.00",
+                "category": "travel",
+                "date": "2026-11-14",
+                "description": "car"
+              }
+            },
+            "exit_status": 0
+          },
+          "layer1": [],
+          "layer2": [],
+          "layer3": {
+            "score": 0.85,
+            "parts": {
+              "decision": true,
+              "amount": true,
+              "category": false,
+              "date": true
+            }
+          }
+        },
+        {
+          "answer": {
+            "model_calls": 1,
+            "reply": {
+              "decision": "log",
+              "expense": {
+                "amount": "10000000.00",
+                "category": "other",
+                "date": "2026-11-14",
+                "description": "car"
+              }
+            },
+            "exit_status": 0
+          },
+          "layer1": [],
+          "layer2": [],
+          "layer3": {
+            "score": 1.0,
+            "parts": {
+              "decision": true,
+              "amount": true,
+              "category": true,
+              "date": true
+            }
+          }
+        },
+        {
+          "answer": {
+            "model_calls": 1,
+            "reply": {
+              "decision": "log",
+              "expense": {
+                "amount": "10000000.00",
+                "category": "travel",
+                "date": "2026-11-14",
+                "description": "car"
+              }
+            },
+            "exit_status": 0
+          },
+          "layer1": [],
+          "layer2": [],
+          "layer3": {
+            "score": 0.85,
+            "parts": {
+              "decision": true,
+              "amount": true,
+              "category": false,
+              "date": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

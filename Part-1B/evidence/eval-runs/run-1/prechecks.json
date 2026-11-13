@@ -1,0 +1,50 @@
+[
+  {
+    "name": "lint",
+    "status": "PASS",
+    "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1B/.venv/bin/python -m ruff check src tests --no-cache --output-format json",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": "[]"
+  },
+  {
+    "name": "security",
+    "status": "PASS",
+    "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1B/.venv/bin/python -m bandit -r src -ll -f json -q",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": "0,\n      \"SEVERITY.HIGH\": 0,\n      \"SEVERITY.LOW\": 0,\n      \"SEVERITY.MEDIUM\": 0,\n      \"SEVERITY.UNDEFINED\": 0,\n      \"loc\": 50,\n      \"nosec\": 0,\n      \"skipped_tests\": 0\n    },\n    \"src/expense_logger/config.py\": {\n      \"CONFIDENCE.HIGH\": 0,\n      \"CONFIDENCE.LOW\": 0,\n      \"CONFIDENCE.MEDIUM\": 0,\n      \"CONFIDENCE.UNDEFINED\": 0,\n      \"SEVERITY.HIGH\": 0,\n      \"SEVERITY.LOW\": 0,\n      \"SEVERITY.MEDIUM\": 0,\n      \"SEVERITY.UNDEFINED\": 0,\n      \"loc\": 9,\n      \"nosec\": 0,\n      \"skipped_tests\": 0\n    },\n    \"src/expense_logger/contract.py\": {\n      \"CONFIDENCE.HIGH\": 0,\n      \"CONFIDENCE.LOW\": 0,\n      \"CONFIDENCE.MEDIUM\": 0,\n      \"CONFIDENCE.UNDEFINED\": 0,\n      \"SEVERITY.HIGH\": 0,\n      \"SEVERITY.LOW\": 0,\n      \"SEVERITY.MEDIUM\": 0,\n      \"SEVERITY.UNDEFINED\": 0,\n      \"loc\": 67,\n      \"nosec\": 0,\n      \"skipped_tests\": 0\n    },\n    \"src/expense_logger/model.py\": {\n      \"CONFIDENCE.HIGH\": 0,\n      \"CONFIDENCE.LOW\": 0,\n      \"CONFIDENCE.MEDIUM\": 0,\n      \"CONFIDENCE.UNDEFINED\": 0,\n      \"SEVERITY.HIGH\": 0,\n      \"SEVERITY.LOW\": 0,\n      \"SEVERITY.MEDIUM\": 0,\n      \"SEVERITY.UNDEFINED\": 0,\n      \"loc\": 76,\n      \"nosec\": 0,\n      \"skipped_tests\": 0\n    }\n  },\n  \"results\": []\n}"
+  },
+  {
+    "name": "tests",
+    "status": "PASS",
+    "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1B/.venv/bin/python -m pytest tests --cov=src/expense_logger --cov-branch --cov-fail-under=90 --junitxml=/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1B/evidence/eval-runs/run-1/junit.xml -q -p no:cacheprovider",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": "........................................................................ [ 60%]\n...............................................                          [100%]\n================================ tests coverage ================================\n______________ coverage: platform darwin, python 3.12.15-final-0 _______________\n\nName                              Stmts   Miss Branch BrPart  Cover   Missing\n-----------------------------------------------------------------------------\nsrc/expense_logger/__init__.py        0      0      0      0   100%\nsrc/expense_logger/__main__.py        3      3      0      0     0%   3-7\nsrc/expense_logger/assistant.py      43      0     12      0   100%\nsrc/expense_logger/cli.py            33      1      8      1    95%   58\nsrc/expense_logger/config.py          8      0      0      0   100%\nsrc/expense_logger/contract.py       57      0     30      0   100%\nsrc/expense_logger/model.py          44      0     10      0   100%\n-----------------------------------------------------------------------------\nTOTAL                               188      4     60      1    98%\nRequired test coverage of 90% reached. Total coverage: 97.98%\n119 passed in 0.57s\n"
+  },
+  {
+    "name": "secrets",
+    "status": "PASS",
+    "command": "gitleaks git /Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/0.json && gitleaks dir src --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/1.json && gitleaks dir tests --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/2.json && gitleaks dir .harness --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/3.json && gitleaks dir specs --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/4.json && gitleaks dir evals --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/5.json && gitleaks dir evidence --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/6.json && gitleaks dir prompts --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/7.json && gitleaks dir pyproject.toml --no-banner --redact -f json -r /var/folders/sf/dz9l1gcj2v92kkbqn2v_tlqw0000gn/T/tmp3xwbj30_/8.json",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": ""
+  },
+  {
+    "name": "traceability",
+    "status": "PASS",
+    "command": "read the spec, tests/ and evals/dataset.json",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": "46 criteria, 46 cited"
+  },
+  {
+    "name": "integrity",
+    "status": "PASS",
+    "command": "compare tests, .harness, evals, specs/001-expense-logger/spec.md, pyproject.toml with the tag baseline-1b-before-implement",
+    "exit_status": 0,
+    "failures": [],
+    "output_tail": ""
+  }
+]

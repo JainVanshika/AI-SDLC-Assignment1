@@ -1,0 +1,80 @@
+{
+  "name": "lint",
+  "status": "FAIL",
+  "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1A/.venv/bin/python -m ruff check src tests --no-cache --output-format json",
+  "exit_status": 1,
+  "failures": [
+    {
+      "rule": "I001",
+      "file": "tests/helpers.py",
+      "line": 3,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/integration/test_cli.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/oracle/test_totals_oracle.py",
+      "line": 3,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/property/test_invariants.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_add.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_budgets.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_edit_delete.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_list.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_money.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_rules.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_storage.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    },
+    {
+      "rule": "I001",
+      "file": "tests/unit/test_totals.py",
+      "line": 1,
+      "message": "Import block is un-sorted or un-formatted"
+    }
+  ]
+}

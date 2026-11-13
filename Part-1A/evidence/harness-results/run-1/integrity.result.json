@@ -1,0 +1,7 @@
+{
+  "name": "integrity",
+  "status": "PASS",
+  "command": "compare tests, .harness, specs/001-expense-tracker/spec.md, pyproject.toml with the tag baseline-1a-before-implement",
+  "exit_status": 0,
+  "failures": []
+}

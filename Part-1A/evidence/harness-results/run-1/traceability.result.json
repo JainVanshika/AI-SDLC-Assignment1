@@ -1,0 +1,7 @@
+{
+  "name": "traceability",
+  "status": "PASS",
+  "command": "read specs/001-expense-tracker/spec.md and tests/**/test_*.py",
+  "exit_status": 0,
+  "failures": []
+}

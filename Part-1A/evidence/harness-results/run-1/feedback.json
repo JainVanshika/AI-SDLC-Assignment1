@@ -1,0 +1,84 @@
+{
+  "failed_gates": [
+    {
+      "gate": "lint",
+      "command": "/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1A/.venv/bin/python -m ruff check src tests --no-cache --output-format json",
+      "exit_status": 1,
+      "failures": [
+        {
+          "rule": "I001",
+          "file": "tests/helpers.py",
+          "line": 3,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/integration/test_cli.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/oracle/test_totals_oracle.py",
+          "line": 3,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/property/test_invariants.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_add.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_budgets.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_edit_delete.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_list.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_money.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_rules.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_storage.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "rule": "I001",
+          "file": "tests/unit/test_totals.py",
+          "line": 1,
+          "message": "Import block is un-sorted or un-formatted"
+        }
+      ],
+      "output_tail": "\",\n          \"end_location\": {\n            \"column\": 1,\n            \"row\": 10\n          },\n          \"location\": {\n            \"column\": 1,\n            \"row\": 1\n          }\n        }\n      ],\n      \"message\": \"Organize imports\"\n    },\n    \"location\": {\n      \"column\": 1,\n      \"row\": 1\n    },\n    \"message\": \"Import block is un-sorted or un-formatted\",\n    \"name\": \"unsorted-imports\",\n    \"noqa_row\": 1,\n    \"severity\": \"error\",\n    \"url\": \"https://docs.astral.sh/ruff/rules/unsorted-imports\"\n  },\n  {\n    \"cell\": null,\n    \"code\": \"I001\",\n    \"end_location\": {\n      \"column\": 32,\n      \"row\": 5\n    },\n    \"filename\": \"/Users/lynnfernandes/Documents/Masters of Technology in Software Engineering/Code/Development/AI SDLC Vanshika/Part-1A/tests/unit/test_totals.py\",\n    \"fix\": {\n      \"applicability\": \"safe\",\n      \"edits\": [\n        {\n          \"content\": \"import pytest\\nfrom helpers import reference_store\\n\\nfrom expense_tracker import ops\\nfrom expense_tracker.errors import ExpenseError\\n\\n\\n\",\n          \"end_location\": {\n            \"column\": 1,\n            \"row\": 8\n          },\n          \"location\": {\n            \"column\": 1,\n            \"row\": 1\n          }\n        }\n      ],\n      \"message\": \"Organize imports\"\n    },\n    \"location\": {\n      \"column\": 1,\n      \"row\": 1\n    },\n    \"message\": \"Import block is un-sorted or un-formatted\",\n    \"name\": \"unsorted-imports\",\n    \"noqa_row\": 1,\n    \"severity\": \"error\",\n    \"url\": \"https://docs.astral.sh/ruff/rules/unsorted-imports\"\n  }\n]"
+    }
+  ]
+}

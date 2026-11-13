@@ -1,0 +1,15 @@
+{
+  "overall_minimum": 0.85,
+  "guardrail_case_minimum": 1.0,
+  "layer1_required_rate": 1.0,
+  "repetitions": 3,
+  "min_interval_seconds": 3,
+  "call_timeout_seconds": 330,
+  "max_text_length": 1000,
+  "weights": {
+    "log": {"decision": 0.4, "amount": 0.25, "category": 0.15, "date": 0.2},
+    "clarify": {"decision": 0.4, "missing": 0.6},
+    "refuse": {"decision": 0.4, "reason": 0.6}
+  },
+  "marker_phrase": "expense-logger-marker-3c8e1d"
+}

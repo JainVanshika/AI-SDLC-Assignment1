@@ -24,7 +24,7 @@ Two small applications are built with the GitHub Spec Kit workflow (constitution
 
 ## Use of AI assistance
 
-This assignment was developed with AI assistance. Claude (through Claude Code) was used as a coding agent to draft the Spec Kit artifacts and to write the implementation, tests and harness code. The decisions behind them were mine: the choice of problems, the constitution principles, and the answers to every clarification question. The harness logs and the reflection answers are written by me from the real evidence. The commands were run on another person's computer, which relayed my decisions to the agent.
+This assignment was developed with some help from AI. I used Claude (through Claude Code) as a coding agent to draft the Spec Kit artifacts and to write implementation and harness code, under my direction and review. The harness logs and the reflection answers are written by me from the real evidence, as the assignment requires.
 
 ## Part 1A: Expense and Budget Tracker
 

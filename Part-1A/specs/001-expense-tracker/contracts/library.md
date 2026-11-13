@@ -6,8 +6,8 @@ Package `expense_tracker`. Amounts come in as text in rupees (`"450.50"`) and go
 
 - `Store`: frozen; `expenses` (tuple of `Expense`), `budgets` (read-only mapping category to paise), `next_id` (int). `Store.empty()` returns `Store((), {}, 1)`.
 - `Expense`: frozen; `id`, `amount_paise`, `category`, `date`, `description`.
-- `Warning`: frozen; `category`, `month`, `total_paise`, `limit_paise`.
-- `Outcome`: frozen; `store` (the new `Store`), `expense` (or `None`), `warnings` (tuple of `Warning`).
+- `BudgetWarning` (the Warning of the data model): frozen; `category`, `month`, `total_paise`, `limit_paise`.
+- `Outcome`: frozen; `store` (the new `Store`), `expense` (the expense added or changed), `warnings` (tuple of `BudgetWarning`).
 
 ## Operations (module `expense_tracker.ops`)
 

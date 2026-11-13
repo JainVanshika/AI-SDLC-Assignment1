@@ -51,7 +51,7 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 - [X] T034 If a gate fails, give the agent that run's `feedback.json`, repair `src/` only, and re-run; keep every run. A failure is never created on purpose. Cites: constitution (Workflow).
 - [X] T035 Copy the accepted `src/expense_tracker/` to `evidence/final-generation/`. Cites: constitution (Workflow).
 - [ ] T036 Write `Part-1A/evidence/harness-log.md`: the first generation, each run and result, the failure evidence given to the agent, what changed, the final ACCEPT or REJECT decision, limitations. Cites: constitution (Workflow).
-- [ ] T037 Write `Part-1A/README.md`: install, run, harness. Cites: quickstart.
+- [X] T037 Write `Part-1A/README.md`: install, run, harness. Cites: quickstart.
 
 ## Dependencies
 

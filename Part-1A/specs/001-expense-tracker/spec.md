@@ -22,6 +22,16 @@
 | 3 | 30000 | travel | 2026-11-15 | bus |
 | 4 | 9999 | food | 2026-10-31 | snacks |
 
+## Clarifications
+
+### Session 1
+
+- Q: How is an amount typed? → A: In rupees with up to two decimals, such as `450.50`, converted to whole paise without floating-point arithmetic.
+- Q: May an expense be dated in the future? → A: Yes. Any real calendar date is accepted, because the tracker never reads the clock.
+- Q: Does deleting need confirmation? → A: On the command line, yes: `--yes` is required, otherwise the deletion is refused with `confirmation-required`. The library deletes at once.
+- Q: Where is the data file by default? → A: `expenses.json` in the folder where the tool is run, changeable by giving another path.
+- Q: Can a budget be removed once it is set? → A: Yes, there is a "remove budget" operation.
+
 ## User Scenarios & Testing
 
 Stories are in priority order. P1 is the core, P2 builds on it. Each can be built and tested on its own. Every acceptance criterion has an ID (`AC-nnn`) that the tasks and tests cite, together with the requirement it checks.
@@ -44,6 +54,7 @@ A person adds an expense and sees it in a list. The list is the same every time 
 | AC-010 | Given the reference data, when I list everything, then the order is 4, 1, 2, 3 (by date, oldest first). | FR-008 |
 | AC-011 | Given two expenses on the same date, the one with the lower id comes first. | FR-008 |
 | AC-012 | Given an empty store, or a filter that matches nothing, the list is empty and the call succeeds. | FR-008 |
+| AC-045 | The dates `2099-12-31` and `1900-01-01` are accepted, because any real calendar date is allowed. | FR-005 |
 
 ### User Story 2 - Find expenses by category and month (Priority: P1)
 
@@ -80,6 +91,8 @@ A person sets a monthly limit for a category and is warned, not blocked, when an
 | AC-025 | Given no budget for `travel`, adding any travel expense never gives a warning. | FR-013 |
 | AC-026 | Given the reference data and a `food` budget of 60000, when I edit expense 2 to `150.00`, the total is 60000 and there is no warning. When I edit it to `150.01`, the total is 60001 and the edit is saved with a warning. | FR-013, FR-015 |
 | AC-027 | Given the reference data and a `food` budget of 45000, adding `food` 1.00 on `2026-12-01` gives no warning, because December has no other food expense and only that month's total counts. | FR-013 |
+| AC-048 | Given a `food` budget of 60000, when I remove it, then the budget status for `2026-11` no longer lists `food`, and adding `food` 1000.00 on `2026-11-22` gives no warning. | FR-023 |
+| AC-049 | Removing the budget of `travel` when none was set is refused with `not-found`. Removing the budget of category `x` is refused with `invalid-category`. | FR-023 |
 | AC-028 | Given the reference data and a `food` budget of 60000, the budget status for `2026-11` shows `food` with limit 60000, spent 57050, remaining 2950, and shows no other category. After the spent amount reaches 64050, remaining is -4050. | FR-014 |
 
 ### User Story 5 - Correct or remove an expense (Priority: P2)
@@ -93,7 +106,8 @@ A person fixes a mistake or deletes an expense.
 | AC-031 | An edit that gives no field to change is refused with `nothing-to-change`. | FR-015 |
 | AC-032 | An edit with an invalid value, for example amount `0`, is refused with `invalid-amount` and the expense is unchanged. | FR-015, FR-007 |
 | AC-033 | An id such as `abc`, `0`, `-1` or `1.5` gives `invalid-id`. A valid id that does not exist, `99`, gives `not-found`. | FR-016 |
-| AC-034 | Given the reference data, when I delete expense 2, then it no longer appears in the list or in the totals. | FR-016 |
+| AC-034 | Given the reference data, when I delete expense 2 (a library call, or the command line with `--yes`), then it no longer appears in the list or in the totals. | FR-016 |
+| AC-046 | On the command line, deleting expense 2 without `--yes` is refused with `confirmation-required`, and expense 2 is still in the list. | FR-016, FR-021 |
 | AC-035 | Given the reference data, when I delete expense 4 and then add a new expense, the new expense is number 5. Numbers are never reused. | FR-001, FR-016 |
 
 ### User Story 6 - Keep the data safe on disk (Priority: P2)
@@ -104,6 +118,7 @@ A person closes the tool and finds everything as it was.
 |---|---|---|
 | AC-036 | Given the reference data saved to a file, when the tool starts again and lists everything, then the same four expenses, amounts and ids are returned. | FR-017 |
 | AC-037 | Given a file that does not exist, the store is empty, and the first add creates the file. | FR-018 |
+| AC-047 | When no path is given, the file used is `expenses.json` in the folder where the tool is run. When a path is given, that file is used and no other file is created. | FR-017 |
 | AC-038 | Given a file that is not valid JSON, every operation fails with `storage-error`, and the file is not changed. | FR-018 |
 | AC-039 | Given a file where an amount is not a whole number (`450.5`), or a category is not in the list, every operation fails with `storage-error`, and the file is not changed. | FR-018, FR-002 |
 | AC-040 | When writing the file fails part-way, the previous contents of the file are unchanged and still load. | FR-019 |
@@ -114,9 +129,9 @@ A person runs each operation from the command line, as text or as JSON.
 
 | ID | Acceptance criterion | Requirement |
 |---|---|---|
-| AC-041 | Every operation (add, list, edit, delete, totals, set budget, budget status) is available from the command line. | FR-020 |
+| AC-041 | Every operation (add, list, edit, delete, totals, set budget, remove budget, budget status) is available from the command line. | FR-020 |
 | AC-042 | In text output, an amount of 12050 paise is shown as `120.50`. In JSON output, amounts are integers in paise, and the JSON equals the library result. | FR-020, FR-001 |
-| AC-043 | Success exits with 0, including a success with a warning. Invalid input and `not-found` exit with 2. A `storage-error` exits with 3. Errors go to standard error as `error <code>: <message>` and nothing is written to standard output. | FR-021 |
+| AC-043 | Success exits with 0, including a success with a warning. Invalid input, `not-found` and `confirmation-required` exit with 2. A `storage-error` exits with 3. Errors go to standard error as `error <code>: <message>` and nothing is written to standard output. | FR-021 |
 | AC-044 | Running the same command twice on the same file gives the same output. Adding an expense with no date is refused with `invalid-date`; the tool never uses today's date. | FR-005, FR-022 |
 
 ### Edge Cases
@@ -132,10 +147,10 @@ A person runs each operation from the command line, as text or as JSON.
 ### Functional Requirements
 
 - **FR-001**: The system shall add an expense from an amount, a category, a date and an optional description, give it the next expense number (1, 2, 3, ...), save it, and return it. Expense numbers shall never be reused, even after a deletion.
-- **FR-002**: The amount shall be [NEEDS CLARIFICATION: how is an amount typed: in rupees with up to two decimal places, such as 450.50, or in whole paise, such as 45050?]. It shall be converted to a whole number of paise without floating-point arithmetic, and stored as an integer.
+- **FR-002**: The amount shall be written in rupees as digits, optionally followed by a point and one or two digits (`450`, `450.5`, `450.50`), with no sign, spaces, commas, exponent or currency sign, and no leading zero except a single `0` before the point. It shall be converted to a whole number of paise by reading the digits as text, without floating-point arithmetic, and stored as an integer.
 - **FR-003**: The amount shall be more than 0 and at most 1,000,000,000 paise (INR 10,000,000.00). Anything else is refused with `invalid-amount`.
 - **FR-004**: The category shall be exactly `food`, `travel`, `bills` or `other`, in lower case. Anything else is refused with `invalid-category`.
-- **FR-005**: The date shall be a real calendar date written `YYYY-MM-DD`, and is always supplied. A missing or invalid date is refused with `invalid-date`. [NEEDS CLARIFICATION: may an expense be dated in the future? The tracker never reads the clock, so it cannot tell which dates are in the future unless a reference date is given.]
+- **FR-005**: The date shall be a real calendar date written `YYYY-MM-DD`, and is always supplied. A missing or invalid date is refused with `invalid-date`. Any real calendar date is accepted, including one in the future, because the system does not read the clock.
 - **FR-006**: The description is optional, at most 100 characters. A longer one is refused with `invalid-description`.
 - **FR-007**: When more than one input is invalid, only the first error is returned, checking the amount, then the category, then the date, then the description. A refused request changes nothing.
 - **FR-008**: Listing shall return expenses ordered by date (oldest first) and then by expense number. It shall return an empty list, not an error, when there are none.
@@ -146,13 +161,14 @@ A person runs each operation from the command line, as text or as JSON.
 - **FR-013**: When adding or editing an expense takes the total of its category in its month above the category's budget limit, the system shall still save the expense and shall return a warning `budget-exceeded` with the category, the month, the total and the limit. A total equal to the limit is not above it. A category with no budget never warns.
 - **FR-014**: The system shall return a budget status for a month: for each category that has a budget, the limit, the amount spent and the remaining amount (limit minus spent, which can be negative).
 - **FR-015**: The system shall edit an expense by number, changing any of the amount, category, date and description, with the same rules as for adding. An edit with nothing to change is refused with `nothing-to-change`. The expense number never changes.
-- **FR-016**: The system shall delete an expense by number. An expense number shall be a whole number of 1 or more; any other text is refused with `invalid-id`, and a valid number that does not exist with `not-found`. [NEEDS CLARIFICATION: must a deletion be confirmed, for example with an extra `--yes` option, or does it happen at once?]
-- **FR-017**: All expenses, budgets and the next expense number shall be kept in one JSON file. Reading the file back shall give exactly the same data.
+- **FR-016**: The system shall delete an expense by number. An expense number shall be a whole number of 1 or more; any other text is refused with `invalid-id`, and a valid number that does not exist with `not-found`. On the command line a deletion also needs the option `--yes`; without it the deletion is refused with `confirmation-required` and nothing is deleted. The library function deletes at once.
+- **FR-017**: All expenses, budgets and the next expense number shall be kept in one JSON file. Unless another path is given, the file is `expenses.json` in the folder where the tool is run. Reading the file back shall give exactly the same data.
 - **FR-018**: A file that does not exist shall be treated as an empty store. A file that is not valid JSON, or that holds an amount that is not a whole number or a category that is not in the list, shall fail every operation with `storage-error`, and shall not be changed.
 - **FR-019**: Saving shall not leave the file half written: if saving fails, the previous contents remain and can be loaded.
 - **FR-020**: Every operation shall be available as a library function and as a command line operation. Output shall be readable text by default and JSON on request. In JSON, amounts are integers in paise; in text, they are shown in rupees with two decimals.
-- **FR-021**: The command line shall exit with 0 on success (with or without a warning), 2 on invalid input or `not-found`, and 3 on `storage-error`. Errors shall go to standard error and nothing shall be written to standard output.
+- **FR-021**: The command line shall exit with 0 on success (with or without a warning), 2 on invalid input, `not-found` or `confirmation-required`, and 3 on `storage-error`. Errors shall go to standard error and nothing shall be written to standard output.
 - **FR-022**: The result of an operation shall depend only on the stored data and the inputs. The system shall not read the clock, use random numbers, or use the network.
+- **FR-023**: The system shall remove the budget of a category. A category that is not in the list is refused with `invalid-category`, and a category with no budget with `not-found`. After removal the category never warns.
 
 ### Key Entities
 
@@ -165,17 +181,17 @@ A person runs each operation from the command line, as text or as JSON.
 
 ### Measurable Outcomes
 
-- **SC-001**: Every acceptance criterion (AC-001 to AC-044) is checked by at least one automated test that cites its ID, and all of those tests pass.
+- **SC-001**: Every acceptance criterion (AC-001 to AC-049) is checked by at least one automated test that cites its ID, and all of those tests pass.
 - **SC-002**: For 1,000 randomly generated sets of expenses, the monthly totals and the budget warnings match an independent check that uses integer arithmetic only, in 100% of the sets.
 - **SC-003**: Listing or totalling 10,000 expenses completes in under 2 seconds on a typical laptop.
 - **SC-004**: After a failed write, the previous file loads with exactly the same data, in 100% of the injected failures.
 - **SC-005**: Branch coverage of the library is at least 90%.
 - **SC-006**: The lint, security and secret checks of the constitution report no findings.
-- **SC-007**: Every error code in FR-003 to FR-021 (`invalid-amount`, `invalid-category`, `invalid-date`, `invalid-description`, `invalid-month`, `invalid-id`, `not-found`, `nothing-to-change`, `storage-error`) is produced by at least one test.
+- **SC-007**: Every error code in FR-003 to FR-021 (`invalid-amount`, `invalid-category`, `invalid-date`, `invalid-description`, `invalid-month`, `invalid-id`, `not-found`, `nothing-to-change`, `confirmation-required`, `storage-error`) is produced by at least one test.
 
 ## Assumptions
 
-- There is one user and one local data file. The file's location can be chosen when the tool is run.
+- There is one user and one local data file. The file's location defaults to `expenses.json` in the current folder and can be chosen when the tool is run.
 - The only currency is the Indian rupee. Amounts are never converted.
 - The category list is fixed in this version. Adding categories is out of scope.
 - A budget is one limit per category and applies to every month. Per-month budgets are out of scope.

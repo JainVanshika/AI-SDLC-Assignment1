@@ -6,9 +6,9 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 
 ## Phase 1: Setup
 
-- [ ] T001 Create `Part-1A/pyproject.toml`: project `expense-tracker`, `requires-python = ">=3.12,<3.13"`, no run-time dependencies, dev group with pytest, pytest-cov, ruff and bandit, the script `expense = "expense_tracker.cli:main"`, the `ac` pytest marker, `[tool.coverage.run] branch = true, source = ["src/expense_tracker"]`, `[tool.coverage.report] fail_under = 90`, and Ruff rules `select = ["E", "F", "I", "B", "UP", "S", "C90"]`. Cites: constitution (Standards), plan.
+- [ ] T001 Create `Part-1A/pyproject.toml`: project `expense-tracker`, `requires-python = ">=3.12,<3.13"`, no run-time dependencies, dev group with pytest, pytest-cov, ruff and bandit, the script `expense = "expense_tracker.cli:main"`, the `ac` pytest marker, `[tool.coverage.run] branch = true, source = ["src/expense_tracker"]`, `[tool.coverage.report] fail_under = 90`, and Ruff rules `select = ["E", "F", "I", "B", "UP", "S", "C90"]`, with `[tool.ruff.lint.per-file-ignores] "tests/*" = ["S101", "S603", "S607"]` because tests use `assert` and start the command line in a subprocess (the ignore is for tests only and is documented in the harness log). Cites: constitution (Standards), plan.
 - [ ] T002 Create the empty package `Part-1A/src/expense_tracker/__init__.py` and the folders `tests/unit`, `tests/integration`, `tests/property`, `tests/oracle`, `evidence/initial-generation`, `evidence/final-generation`, `evidence/harness-results`. Cites: plan (Structure).
-- [ ] T003 Create `Part-1A/tests/conftest.py` with the `ac` marker and a helper `run_cli(args, cwd)` that starts `python -m expense_tracker.cli` in a subprocess. Cites: constitution III.
+- [ ] T003 Create `Part-1A/tests/conftest.py` with the `ac` marker and a helper `run_cli(args, cwd)` that starts `python -m expense_tracker` in a subprocess. Cites: constitution III.
 
 ## Phase 2: Harness and tests (frozen before implementation)
 
@@ -29,7 +29,7 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 - [ ] T018 [P] [US6] Write `Part-1A/tests/unit/test_storage.py` with a temporary folder: round trip, missing file, invalid JSON, bad types, failed write. Cites: AC-036 to AC-040, FR-017 to FR-019.
 - [ ] T019 [P] [US7] Write `Part-1A/tests/integration/test_cli.py` with `run_cli`: every command, text and JSON output, exit codes, `--yes`, the default file. Cites: AC-041 to AC-044, AC-046, AC-047, FR-016, FR-017, FR-020, FR-021.
 - [ ] T020 [P] Write `Part-1A/tests/oracle/test_totals_oracle.py`: 1,000 stores from `random.Random(seed)`, totals and budget overruns compared with an in-memory SQLite integer computation. Cites: SC-002, FR-011, FR-013.
-- [ ] T021 [P] Write `Part-1A/tests/property/test_invariants.py`: no `float` in stored data; same input twice gives the same output; the source never imports `time`, `random`, `socket` or `urllib`; 10,000 expenses list and total in under 2 seconds. Cites: FR-022, SC-003.
+- [ ] T021 [P] Write `Part-1A/tests/property/test_invariants.py`: no `float` in stored data; same input twice gives the same output; the source never imports `time`, `random`, `socket` or `urllib` and never calls `date.today` or `datetime.now`; 10,000 expenses list and total in under 2 seconds. Cites: FR-022, SC-003.
 - [ ] T022 Commit the harness and the tests, then create the annotated tag `baseline-1a-before-implement` with the message `test_functions=<count>`. Nothing under `tests/` or `.harness/` changes after this tag without a recorded amendment. Cites: constitution IV.
 
 ## Phase 3: Implementation

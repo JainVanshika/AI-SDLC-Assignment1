@@ -44,7 +44,7 @@ Format: `- [ ] ID [P] Description with file path. Cites: requirements.` `[P]` me
 - [X] T027 If a run fails, give the agent that run's `feedback.json`, repair, and run again; keep every run. A failure is never created on purpose. Cites: constitution (Workflow). Not needed: run 1 passed.
 - [X] T028 Copy the accepted `src/` and `prompts/` to `evidence/final-generation/`. Cites: constitution (Workflow).
 - [X] T029 Write and run `evidence/fresh-check/run_fresh_check.py` on at least 12 new requests, once, with no pass mark. Cites: SC-007.
-- [ ] T030 Write `Part-1B/evidence/harness-log.md`. Cites: constitution (Workflow).
+- [X] T030 Write `Part-1B/evidence/harness-log.md`. Cites: constitution (Workflow).
 - [X] T031 Write `Part-1B/README.md`. Cites: quickstart.
 
 ## Dependencies
